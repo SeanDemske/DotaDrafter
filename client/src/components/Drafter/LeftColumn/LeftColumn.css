@@ -1,0 +1,9 @@
+.LeftColumn {
+    width: 60%;
+}
+
+@media screen and (max-width: 1200px) {
+    .LeftColumn {
+        width: 100%;
+    }
+}

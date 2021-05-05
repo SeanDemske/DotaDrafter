@@ -1,0 +1,41 @@
+.Hero {
+    position: relative;
+    height: max-content;
+}
+
+.Hero img {
+    width: 105px;
+    vertical-align: top;
+}
+
+.Hero .hero-name {
+    font-size: .5rem;
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    color: white;
+    z-index: 1;
+    font-weight: 700;
+    margin: 0;
+}
+
+@media screen and (max-width: 1800px) {
+    .Hero img {
+        width: 70px;
+        vertical-align: top;
+    }
+}
+
+@media screen and (max-width: 1400px) {
+    .Hero img {
+        width: 50px;
+        vertical-align: top;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .Hero img {
+        width: 100px;
+        vertical-align: top;
+    }
+}

@@ -1,0 +1,42 @@
+
+.PicksDisplay {
+    color: var(--neutral-text);
+}
+
+.PicksDisplay .Radiant {
+    color: var(--radiant-green);
+}
+
+.PicksDisplay .Dire {
+    color: var(--dire-red);
+}
+
+.PicksDisplay .heroes-container {
+    display: flex;
+}
+
+.PicksDisplay .picks-display,
+.PicksDisplay .bans-display {
+    flex-grow: 1;
+    margin: 1rem 0;
+}
+
+.PicksDisplay .heroes-container img {
+    width: 100%;
+}
+
+.PicksDisplay .bans-display .heroes-container img {
+    filter: saturate(0%);
+}
+
+@media screen and (max-width: 1400px) {
+    .PicksDisplay {
+        font-size: .5rem;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .PicksDisplay {
+        font-size: 1.25rem;
+    }
+}

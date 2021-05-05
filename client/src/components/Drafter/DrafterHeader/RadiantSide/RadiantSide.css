@@ -1,0 +1,35 @@
+.header-radiant {
+    display: flex;
+}
+
+.radiant-right-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 2rem;
+    font-size: 1.5rem;
+}
+
+.radiant-left-panel {
+    text-align: left;
+}
+
+.radiant-left-panel h1 {
+    font-size: 3rem;
+    color: var(--neutral-text);
+}
+
+.radiant-left-panel h2 {
+    color: var(--radiant-green);
+}
+
+@media screen and (max-width: 1200px) {
+    .header-radiant {
+        flex-direction: column;
+    }
+
+    .radiant-right-panel {
+        justify-content: flex-start;
+        margin-left: 0;
+    }
+}

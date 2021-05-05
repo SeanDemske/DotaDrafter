@@ -1,0 +1,79 @@
+/* The Modal (background) */
+.UsernameModal {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.7); /* Black w/ opacity */
+}
+
+.UsernameModal .modal-content {
+    background-color: #242222;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 4rem 1rem;
+    border: 1px solid #655757;
+    width: 600px;
+    height: 500px;
+    border-radius: 33px;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.UsernameModal .modal-content h1 {
+    font-size: 2rem;
+    text-decoration: underline;
+}
+
+.UsernameModal .modal-content .form-control {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    padding: 0 1rem;
+}
+
+.UsernameModal .modal-content .form-control label {
+    color: var(--neutral-text);
+    font-size: 1.5rem;
+}
+
+.UsernameModal .modal-content .form-control input {
+    /* Input Field */
+    outline: none;
+    border: none;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #151515;
+
+    /* Text */
+    color: white;
+    font-size: 1.5rem;
+    padding-left: 1rem;
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+.UsernameModal .modal-content .button-group {
+    display: flex;
+    justify-content: space-between;
+}
+
+.UsernameModal .modal-content .button-group .btn {
+    padding: 1rem 2rem;
+    font-size: 1.5rem;
+    margin: 0 .5rem;
+}
+
+@media screen and (max-width: 650px) {
+    .UsernameModal .modal-content {
+        width: 95%;
+    }
+}
+
+
+  

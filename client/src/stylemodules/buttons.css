@@ -1,0 +1,19 @@
+.btn {
+    background-color: var(--default-btn-background);
+    border: 5px solid var(--default-btn-border);
+    padding: 2rem 4rem;
+    font-family: 'Nanum Myeongjo', serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--neutral-text);
+}
+
+.btn:hover {
+    cursor: pointer;
+    filter: brightness(110%);
+}
+
+.btn:focus {
+    cursor: pointer;
+    filter: brightness(110%);
+}

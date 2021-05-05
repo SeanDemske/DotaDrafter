@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&display=swap');
+/* Weights
+400
+700
+800
+*/
+
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button:focus {
+    outline: none;
+}
+
+html, body, #root {
+    height: 100%;
+}
+
+body {
+    background-color: var(--background-black);
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+:root {
+    --radiant-green: #AAC56B;
+    --dire-red: #CD665F;
+    --neutral-text: #F1D9C3;
+    --dark-grey: #9FABB1;
+    --background-black: #151412;
+    --default-btn-background: #2C2929;
+    --default-btn-border: #453D3D;
+    --max-width: 1100px;
+}

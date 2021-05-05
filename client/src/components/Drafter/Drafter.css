@@ -1,0 +1,51 @@
+.Drafter-container {
+    padding: 2rem 10rem;
+    color: white;
+}
+
+.DrafterHeader {
+    margin-bottom: 2rem;
+}
+
+.Drafter-container .Columns-container {
+    display: flex;
+}
+
+.LeftColumn {
+    margin: 0 1rem 0 0;
+}
+
+.RightColumn {
+    margin: 0 0 0 1rem;
+}
+
+.RightColumn .DrafterPicks {
+    margin: 0 0 1rem 0;
+}
+
+.RightColumn .DrafterChatbox {
+    margin: 1rem 0 0 0;
+}
+
+@media screen and (max-width: 1700px) {
+    .Drafter-container {
+        padding: 2rem 2rem;
+    }
+}
+
+@media screen and (max-width: 1200px) {
+    .Drafter-container .Columns-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .RightColumn {
+        margin: 1rem 0 0 0;
+    }
+}
+
+@media screen and (max-width: 1000px) {
+    .Drafter-container {
+        padding: 2rem 1rem;
+    }
+}

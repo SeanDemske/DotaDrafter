@@ -1,0 +1,13 @@
+.RightColumn {
+    width: 40%;
+    min-height: 85vh;
+    display: flex;
+    flex-direction: column;
+}
+
+@media screen and (max-width: 1200px) {
+    .RightColumn {
+        width: 100%;
+        margin: 0;
+    }
+}
