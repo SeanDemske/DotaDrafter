@@ -18,12 +18,14 @@ class Lobby {
     // No players, add radiant
     if (this.playerDire === null && this.playerRadiant === null) {
       this.playerRadiant = player;
+      player.setTeam("Radiant");
       return this;
     }
 
     // Radiant player already in lobby, add dire player
     if (this.playerRadiant !== null && this.playerDire === null) {
       this.playerDire = player;
+      player.setTeam("Dire");
       this.lobbyFull = true;
       this.startDraft();
       return this;
@@ -32,6 +34,7 @@ class Lobby {
     // Dire player already in lobby, add radiant player
     if (this.playerDire !== null && this.playerRadiant === null) {
       this.playerRadiant = player;
+      player.setTeam("Radiant");
       this.lobbyFull = true;
       this.startDraft();
       return this;

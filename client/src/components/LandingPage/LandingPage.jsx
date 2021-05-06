@@ -1,26 +1,18 @@
-import React, { useState } from 'react'
-import UsernameModal from "../UsernameModal/UsernameModal";
+import React from 'react'
+import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from 'uuid';
 import DotaLogo from "../../images/dotalogo.png";
+
 
 import "./LandingPage.css";
 
 function LandingPage() {
-    const [modalOpen, setModalOpen] = useState(false);
-
-    const openModal = () => {
-        setModalOpen(true);
-    }
-
-    const closeModal = () => {
-        setModalOpen(false);
-    }
-
+    
     return (
         <div className="LandingPage">
-            {modalOpen ? <UsernameModal closeModal={closeModal} /> : null}
             <h1>DoTA<br/>Drafter</h1>
             <img src={DotaLogo} alt="Dota 2"/>
-            <button className="btn" onClick={openModal} >Create Lobby</button>
+            <Link to={`/${uuidv4()}`} className="btn" >Create Lobby</Link>
         </div>
     );
 }

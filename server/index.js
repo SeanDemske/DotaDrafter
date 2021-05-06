@@ -25,7 +25,7 @@ app.use(cors());
 /////////////////////////
 // Logic Dependencies
 /////////////////////////////
-const { lobbyJoin, getLobbyById } = require("./utils/handleJoin");
+const { lobbyJoin, lobbyLeave, getLobbyById } = require("./utils/handleJoin");
 
 
 
@@ -41,20 +41,25 @@ const Lobbies = {}
 /////////////////////////////
 io.on("connection", (socket) => {
     console.log("Socket connection made", socket.id);
-    let activeLobby;
+    let activePlayer = null;
 
-    socket.on("join", (lobbyId) => {
-        if (lobbyJoin(lobbyId, Lobbies, socket.id)) {
-            // Lobby successfully created
-            activeLobby = getLobbyById(lobbyId, Lobbies);
+    socket.on("join", (lobbyId, callback) => {
+        activePlayer = lobbyJoin(lobbyId, Lobbies, socket.id);
+        let activeLobby = null;
+        if (activePlayer) {
+            console.log("Successfully joined lobby")
+            activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
         } else {
-            // Lobby full
-            console.log("lobby full, you get the boot");
+            console.log("Failed to join lobby");
         }
-        console.log(activeLobby);
+        callback(activePlayer, activeLobby);
     });
 
     socket.on("disconnect", () => {
+        if (activePlayer && Lobbies) {
+            lobbyLeave(activePlayer, Lobbies);
+        }
+
         console.log("client disconnected");
     });
 });

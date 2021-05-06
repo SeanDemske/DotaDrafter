@@ -12,8 +12,9 @@ const lobbyJoin = (lobbyId, Lobbies, playerId) => {
         // Add player to existing lobby if it's not full, otherwise return false
         const activeLobby = Lobbies[lobbyId];
         if (activeLobby.lobbyFull === false) {
-            activeLobby.addPlayer(new Player(playerId));
-            return activeLobby;
+            const newPlayer = new Player(playerId, lobbyId)
+            activeLobby.addPlayer(newPlayer);
+            return newPlayer;
         } else {
             return false;
         }
@@ -21,9 +22,24 @@ const lobbyJoin = (lobbyId, Lobbies, playerId) => {
         // Lobby does not exist, create new one
         Lobbies[lobbyId] = new Lobby(lobbyId);
         const activeLobby = Lobbies[lobbyId]
-        activeLobby.addPlayer(new Player(playerId));
-        return activeLobby;
+        const newPlayer = new Player(playerId, lobbyId)
+        activeLobby.addPlayer(newPlayer);
+        return newPlayer;
     }
 }
 
-module.exports = { lobbyJoin, getLobbyById };
+const lobbyLeave = (player, Lobbies) => {
+    const activeLobby = getLobbyById(player.lobbyId, Lobbies);
+
+    // Remove player from lobby
+    activeLobby[`player${player.team}`] = null;
+
+    // If all players are gone, remove lobby
+    if (activeLobby.playerRadiant === null && activeLobby.playerDire === null) {
+        delete Lobbies[activeLobby.id]
+    }
+
+    return activeLobby;
+}
+
+module.exports = { lobbyJoin, lobbyLeave, getLobbyById };

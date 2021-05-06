@@ -3,12 +3,14 @@ class Player {
     this.id = id;
     this.lobbyId = lobbyId;
     this.username = "username";
+    this.team = undefined;
     this.picks = [];
     this.bans = [];
     this.reserveTime = 150;
   }
-  getPlayerId() {
-    return this.id;
+  setTeam(team) {
+    this.team = team;
+    return this;
   }
 }
 

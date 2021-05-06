@@ -13,6 +13,7 @@
 
 .UsernameModal .modal-content {
     background-color: #242222;
+    color: var(--neutral-text);
     margin: 15% auto; /* 15% from the top and centered */
     padding: 4rem 1rem;
     border: 1px solid #655757;
