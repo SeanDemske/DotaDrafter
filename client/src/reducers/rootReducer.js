@@ -8,8 +8,13 @@ function rootReducer(state = INITIAL_STATE, action) {
     case "UPDATE_LOBBY_STATE":
       return { ...state, lobby: { ...action.lobbyData } };
 
-      case "UPDATE_PLAYER_STATE":
-        return { ...state, player: { ...action.playerData } };
+    case "UPDATE_PLAYER_STATE":
+      return { ...state, player: { ...action.playerData } };
+
+    case "RESET_STATE":
+      return { ...INITIAL_STATE };
+
+
 
     default:
       return state;

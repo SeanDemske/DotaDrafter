@@ -46,13 +46,20 @@ io.on("connection", (socket) => {
     socket.on("join", (lobbyId, callback) => {
         activePlayer = lobbyJoin(lobbyId, Lobbies, socket.id);
         let activeLobby = null;
-        if (activePlayer) {
+        if (activePlayer) { 
+            // Add client to socket room and emit to the room that there's a connection
             console.log("Successfully joined lobby")
             activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
-        } else {
-            console.log("Failed to join lobby");
+            socket.join(lobbyId);
+            io.to(lobbyId).emit("playerConnection", activeLobby);
+            callback(activePlayer, activeLobby);
+        } else { 
+            // emit to client that the lobby was full, could not join
+            console.log("Failed to join lobby, most likely full");
+            io.to(socket.id).emit("fullLobby");
         }
-        callback(activePlayer, activeLobby);
+
+
     });
 
     socket.on("disconnect", () => {

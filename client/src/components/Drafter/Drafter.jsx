@@ -6,12 +6,14 @@ import RightColumn from "./RightColumn/RightColumn";
 import io from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
 import UsernameModal from "../UsernameModal/UsernameModal";
+import { useHistory } from "react-router-dom";
 
 import "./Drafter.css";
 
 let socket;
 
 function Drafter() {
+    let history = useHistory();
     const location = useLocation().pathname.substr(1);
     const store = useSelector(store => store);
     const dispatch = useDispatch();
@@ -22,8 +24,6 @@ function Drafter() {
     }
     
     if (!store) closeModal();
-
-
 
     useEffect(() => {
         socket = io("localhost:5000");
@@ -38,6 +38,19 @@ function Drafter() {
             socket.disconnect();
         }
     }, [location, dispatch]);
+
+    useEffect(() => {
+        socket.on("playerConnection", (lobbyData) => {
+            dispatch({ type: "UPDATE_LOBBY_STATE", lobbyData });
+        });
+    }, [dispatch]);
+
+    useEffect(() => {
+        socket.on("fullLobby", () => {
+            dispatch({ type: "RESET_STATE" });
+            history.push("/");
+        });
+    }, [dispatch, history]);
 
     return (
         <>

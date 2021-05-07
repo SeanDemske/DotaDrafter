@@ -2,7 +2,7 @@ class Player {
   constructor(id, lobbyId) {
     this.id = id;
     this.lobbyId = lobbyId;
-    this.username = "username";
+    this.username = "Dota Player";
     this.team = undefined;
     this.picks = [];
     this.bans = [];
