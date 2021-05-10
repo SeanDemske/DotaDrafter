@@ -8,11 +8,10 @@ import "./DrafterHeader.css";
 
 function DrafterHeader() {
     const lobby = useSelector(store => store.lobby);
-    console.log(lobby);
     return (
         <div className="DrafterHeader">
             <RadiantSide lobby={lobby}/>
-            <CountDown />
+            <CountDown lobby={lobby}/>
             <DireSide lobby={lobby}/>
         </div>
     );

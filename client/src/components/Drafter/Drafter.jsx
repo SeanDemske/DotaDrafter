@@ -58,11 +58,23 @@ function Drafter() {
         });
     }, [dispatch, history]);
 
+    useEffect(() => {
+        socket.on("countdownTick", (timeLeft) => {
+            dispatch({ type: "UPDATE_MAIN_COUNTDOWN", timeLeft});
+        });
+    }, [dispatch]);
+
+
+    let draftTime = 30;
+    if (store.lobby !== null) {
+        draftTime = store.lobby.draftTime
+    }
+
     return (
         <>
             {modalOpen ? <UsernameModal closeModal={closeModal} socket={socket} /> : null}
             <div className="Drafter-container">
-                <DrafterHeader />
+                <DrafterHeader draftTime={draftTime} />
                 <div className="Columns-container">
                     <LeftColumn />
                     <RightColumn />

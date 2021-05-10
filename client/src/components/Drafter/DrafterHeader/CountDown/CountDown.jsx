@@ -2,11 +2,16 @@ import React from 'react'
 
 import "./CountDown.css";
 
-function CountDown() {
+function CountDown({ lobby }) {
+    let time = 30;
+    if (lobby !== null) {
+        time = lobby.draftTime;
+    }
+
     return (
         <div className="CountDown">
             <p>YOUR TURN TO PICK</p>
-            <p>:30</p>
+            <p>:{time}</p>
         </div>
     )
 }
