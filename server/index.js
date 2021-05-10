@@ -58,8 +58,21 @@ io.on("connection", (socket) => {
             console.log("Failed to join lobby, most likely full");
             io.to(socket.id).emit("fullLobby");
         }
+    });
 
+    socket.on("submitUsername", (username, callback) => {
+        if (!activePlayer) return false;  // Security measure
 
+        // Assign username to activeplayer object
+        activePlayer.username = username;
+
+        // Update lobby and send data back to client
+        let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
+        activeLobby[`player${activePlayer.team}`] = activePlayer;
+        callback(activePlayer, activeLobby);
+
+        // Send data to lobby
+        io.to(activeLobby.id).emit("playerNameUpdate", activeLobby);
     });
 
     socket.on("disconnect", () => {

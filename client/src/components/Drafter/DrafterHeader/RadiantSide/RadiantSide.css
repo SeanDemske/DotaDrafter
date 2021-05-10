@@ -33,3 +33,13 @@
         margin-left: 0;
     }
 }
+
+@media screen and (max-width: 750px) {
+    .radiant-right-panel {
+        font-size: 1rem;
+    }
+
+    .radiant-left-panel h1 {
+        font-size: 1.5rem;
+    }
+}

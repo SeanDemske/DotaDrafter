@@ -46,6 +46,12 @@ function Drafter() {
     }, [dispatch]);
 
     useEffect(() => {
+        socket.on("playerNameUpdate", (lobbyData) => {
+            dispatch({ type: "UPDATE_LOBBY_STATE", lobbyData });
+        });
+    }, [dispatch]);
+
+    useEffect(() => {
         socket.on("fullLobby", () => {
             dispatch({ type: "RESET_STATE" });
             history.push("/");
@@ -54,7 +60,7 @@ function Drafter() {
 
     return (
         <>
-            {modalOpen ? <UsernameModal closeModal={closeModal} /> : null}
+            {modalOpen ? <UsernameModal closeModal={closeModal} socket={socket} /> : null}
             <div className="Drafter-container">
                 <DrafterHeader />
                 <div className="Columns-container">
