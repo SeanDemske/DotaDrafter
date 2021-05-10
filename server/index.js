@@ -53,12 +53,20 @@ io.on("connection", (socket) => {
             socket.join(lobbyId);
             io.to(lobbyId).emit("playerConnection", activeLobby);
             callback(activePlayer, activeLobby);
+
+            if (activeLobby.lobbyFull === true) {
+                // Start the draft
+                activeLobby.startDraft(() => {
+                    io.to(activeLobby.id).emit("countdownTick", activeLobby.draftTime);
+                })
+            }
         } else { 
             // emit to client that the lobby was full, could not join
             console.log("Failed to join lobby, most likely full");
             io.to(socket.id).emit("fullLobby");
         }
     });
+
 
     socket.on("submitUsername", (username, callback) => {
         if (!activePlayer) return false;  // Security measure
