@@ -55,10 +55,10 @@ io.on("connection", (socket) => {
             callback(activePlayer, activeLobby);
 
             if (activeLobby.lobbyFull === true) {
-                // Start the draft
-                activeLobby.startDraft(() => {
-                    io.to(activeLobby.id).emit("countdownTick", activeLobby.draftTime);
-                })
+                // Start the game
+                activeLobby.startGameCountdown(() => {
+                    io.to(activeLobby.id).emit("countdownTick", {draftTime: activeLobby.draftTime, gameStartCountdown: activeLobby.gameStartCountdown, draftInProgress: activeLobby.draftInProgress });
+                });
             }
         } else { 
             // emit to client that the lobby was full, could not join

@@ -8,9 +8,18 @@ class Player {
     this.bans = [];
     this.reserveTime = 150;
   }
+
   setTeam(team) {
     this.team = team;
     return this;
+  }
+
+  pickHero() {
+    console.log("hero picked");
+  }
+
+  banHero() {
+    console.log("hero banned");
   }
 }
 

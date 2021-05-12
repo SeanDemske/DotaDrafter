@@ -25,6 +25,16 @@
     width: 100%;
 }
 
+.PicksDisplay .Hero p {
+    display: none;
+}
+
+.PicksDisplay .Hero img {
+    border: 2px solid var(--default-btn-border);
+}
+
+
+
 .PicksDisplay .bans-display .heroes-container img {
     filter: saturate(0%);
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import Hero from "../../../Hero/Hero";
 import temp_picks from "../../../../../temp_picks";
 import temp_bans from "../../../../../temp_bans";
+import unselectedHero from "../../../../../unselectedHero";
 
 import "./PicksDisplay.css";
 
@@ -22,7 +23,7 @@ function PicksDisplay({ team = "UNDEFINED" }) {
                 <p>Bans</p>
                 <div className="heroes-container">
                     {Object.entries(temp_bans).map(([heroId, heroData]) => {
-                            return <Hero key={heroId} hero={heroData} />
+                            return <Hero key={heroId} hero={unselectedHero} />
                     })}
                 </div>
             </div>

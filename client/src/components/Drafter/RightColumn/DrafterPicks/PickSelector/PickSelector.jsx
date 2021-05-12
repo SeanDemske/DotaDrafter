@@ -1,15 +1,17 @@
 import React from 'react'
 import Hero from "../../../Hero/Hero";
-import axe from "../../../../../temp_axe";
+import { useSelector } from "react-redux";
 
 import "./PickSelector.css";
 
 function PickSelector() {
+    const selectedHero = useSelector(store => store.selectedHero);
+
     return (
         <div className="PickSelector">
             <div className="selected-hero">
-                <Hero hero={axe["2"]} />
-                <p className="selected-hero-title">Axe</p>
+                <Hero hero={selectedHero} />
+                <p className="selected-hero-title">{selectedHero.localized_name}</p>
             </div>
             <div className="pick-ban">
                 <button className="btn">Pick</button>

@@ -30,12 +30,12 @@
 
 .PickSelector .selected-hero .Hero img {
     max-width: 130px;
-    border: 5px solid var(--default-btn-border);
+    border: 2px solid var(--default-btn-border);
 }
 
 .PickSelector .selected-hero .selected-hero-title {
     align-self: flex-end;
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: 800;
     color: var(--neutral-text);
     margin-left: .5rem;

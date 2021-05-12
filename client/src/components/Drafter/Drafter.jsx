@@ -59,10 +59,11 @@ function Drafter() {
     }, [dispatch, history]);
 
     useEffect(() => {
-        socket.on("countdownTick", (timeLeft) => {
-            dispatch({ type: "UPDATE_MAIN_COUNTDOWN", timeLeft});
+        socket.on("countdownTick", (countdownData) => {
+            dispatch({ type: "UPDATE_COUNTDOWN", countdownData});
         });
     }, [dispatch]);
+
 
 
     let draftTime = 30;

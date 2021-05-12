@@ -1,17 +1,39 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 
 import "./CountDown.css";
 
 function CountDown({ lobby }) {
-    let time = 30;
-    if (lobby !== null) {
-        time = lobby.draftTime;
-    }
+    const [time, setTime] = useState(10);
+    const [draftStarted, setDraftStarted] = useState(false);
+
+    useEffect(() => {
+        if (lobby === null) return false;
+
+        if (lobby.draftInProgress === false) {
+            setTime(lobby.gameStartCountdown)
+        } else if (lobby.draftInProgress) {
+            setDraftStarted(true);
+            setTime(lobby.draftTime);
+        }
+    }, [lobby]);
+
+    const renderGameStartTimer = () => (
+        <>
+            <p>STARTING GAME</p>
+            <p>:{time}</p>
+        </>
+    )
+
+    const renderDraftTimer = () => (
+        <>
+            <p>YOUR TURN TO PICK</p>
+            <p>:{time}</p>
+        </>
+    )
 
     return (
         <div className="CountDown">
-            <p>YOUR TURN TO PICK</p>
-            <p>:{time}</p>
+            {draftStarted ? renderDraftTimer() : renderGameStartTimer()}
         </div>
     )
 }
