@@ -1,20 +1,29 @@
 import React from 'react'
+import { v4 as uuidv4 } from 'uuid';
+import { useSelector } from "react-redux";
 import Hero from "../../../Hero/Hero";
-import temp_picks from "../../../../../temp_picks";
-import temp_bans from "../../../../../temp_bans";
-import unselectedHero from "../../../../../unselectedHero";
 
 import "./PicksDisplay.css";
 
 function PicksDisplay({ team = "UNDEFINED" }) {
+    const lobby = useSelector(store => store.lobby);
+    let picks = [];
+    let bans = [];
+
+    if (lobby) {
+        picks = lobby[`player${team}`] !== null ? lobby[`player${team}`].picks : [];
+        bans = lobby[`player${team}`] !== null ? lobby[`player${team}`].bans : [];
+    }
+
+
     return (
         <div className="PicksDisplay">
             <h1 className={`${team}`} >{team}</h1>
             <div className="picks-display">
                 <p>Picks</p>
                 <div className="heroes-container">
-                    {Object.entries(temp_picks).map(([heroId, heroData]) => {
-                            return <Hero key={heroId} hero={heroData} />
+                    {picks.map((pick) => {
+                        return <Hero hero={pick} key={uuidv4()} />
                     })}
                 </div>
             </div>
@@ -22,8 +31,8 @@ function PicksDisplay({ team = "UNDEFINED" }) {
             <div className="bans-display">
                 <p>Bans</p>
                 <div className="heroes-container">
-                    {Object.entries(temp_bans).map(([heroId, heroData]) => {
-                            return <Hero key={heroId} hero={unselectedHero} />
+                    {bans.map((pick) => {
+                        return <Hero hero={pick} key={uuidv4()} />
                     })}
                 </div>
             </div>

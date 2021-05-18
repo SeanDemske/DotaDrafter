@@ -4,12 +4,12 @@ import PickSelector from "./PickSelector/PickSelector";
 
 import "./DrafterPicks.css";
 
-function DrafterPicks() {
+function DrafterPicks({ socket }) {
     return (
         <div className="DrafterPicks">
             <PicksDisplay team={"Radiant"} />
             <PicksDisplay team={"Dire"} />
-            <PickSelector />
+            <PickSelector socket={socket} />
         </div>
     )
 }

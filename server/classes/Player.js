@@ -4,9 +4,11 @@ class Player {
     this.lobbyId = lobbyId;
     this.username = "Dota Player";
     this.team = undefined;
-    this.picks = [];
-    this.bans = [];
+    this.picks = ["unselected_hero", "unselected_hero", "unselected_hero", "unselected_hero", "unselected_hero"];
+    this.bans = ["unselected_hero", "unselected_hero", "unselected_hero", "unselected_hero", "unselected_hero", "unselected_hero", "unselected_hero"];
     this.reserveTime = 150;
+    this.pickIdx = 0;
+    this.banIdx = 0;
   }
 
   setTeam(team) {
@@ -14,8 +16,9 @@ class Player {
     return this;
   }
 
-  pickHero() {
-    console.log("hero picked");
+  pickHero(hero) {
+    this.picks[this.pickIdx] = hero;
+    this.pickIdx++;
   }
 
   banHero() {

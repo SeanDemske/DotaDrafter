@@ -36,7 +36,8 @@ const lobbyLeave = (player, Lobbies) => {
 
     // If all players are gone, remove lobby
     if (activeLobby.playerRadiant === null && activeLobby.playerDire === null) {
-        delete Lobbies[activeLobby.id]
+        delete Lobbies[activeLobby.id];
+        console.log("lobby deleted");
     }
 
     return activeLobby;

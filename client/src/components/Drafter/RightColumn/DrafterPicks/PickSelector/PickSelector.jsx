@@ -1,11 +1,35 @@
 import React from 'react'
 import Hero from "../../../Hero/Hero";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import "./PickSelector.css";
 
-function PickSelector() {
+function PickSelector({ socket }) {
     const selectedHero = useSelector(store => store.selectedHero);
+    const dispatch = useDispatch();
+
+    const handleClick = () => {
+        console.log("PICKED");
+        socket.emit("pickAttempt", selectedHero, (picks, teamname) => {
+            dispatch({ type: "UPDATE_PICKS", picks, teamname });
+        });
+    }
+
+    const renderPickBtn = () => {
+        return (
+            <div className="pick-ban">
+                <button className="btn" onClick={handleClick}>Pick</button>
+            </div>
+        )
+    }
+
+    const renderBanBtn = () => {
+        return (
+            <div className="pick-ban">
+                <button className="btn" onClick={handleClick}>Ban</button>
+            </div>
+        )
+    }
 
     return (
         <div className="PickSelector">
@@ -14,7 +38,7 @@ function PickSelector() {
                 <p className="selected-hero-title">{selectedHero.localized_name}</p>
             </div>
             <div className="pick-ban">
-                <button className="btn">Pick</button>
+                <button className="btn" onClick={handleClick}>Pick</button>
             </div>
         </div>
     )

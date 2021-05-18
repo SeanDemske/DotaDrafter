@@ -25,7 +25,7 @@ app.use(cors());
 /////////////////////////
 // Logic Dependencies
 /////////////////////////////
-const { lobbyJoin, lobbyLeave, getLobbyById } = require("./utils/handleJoin");
+const { lobbyJoin, lobbyLeave, getLobbyById } = require("./utils/handleLobby");
 
 
 
@@ -82,6 +82,19 @@ io.on("connection", (socket) => {
         // Send data to lobby
         io.to(activeLobby.id).emit("playerNameUpdate", activeLobby);
     });
+
+    socket.on("pickAttempt", (hero, callback) => {
+        if (!activePlayer) return false;
+
+        let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
+
+        console.log("attempted to pick hero");
+        activePlayer.pickHero(hero);
+        callback(activePlayer.picks, `player${activePlayer.team}`);
+
+        // Send data to lobby
+        io.to(activeLobby.id).emit("pickSuccess", activePlayer.picks, `player${activePlayer.team}`);
+    })
 
     socket.on("disconnect", () => {
         if (activePlayer && Lobbies) {

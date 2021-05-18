@@ -64,6 +64,11 @@ function Drafter() {
         });
     }, [dispatch]);
 
+    useEffect(() => {
+        socket.on("pickSuccess", (picks, teamname) => {
+            dispatch({ type: "UPDATE_PICKS", picks, teamname});
+        });
+    }, [dispatch]);
 
 
     let draftTime = 30;
@@ -78,7 +83,7 @@ function Drafter() {
                 <DrafterHeader draftTime={draftTime} />
                 <div className="Columns-container">
                     <LeftColumn />
-                    <RightColumn />
+                    <RightColumn socket={socket} />
                 </div>
             </div>
         </>

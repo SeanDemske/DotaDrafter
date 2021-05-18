@@ -5,10 +5,10 @@ import DrafterChatbox from "./DrafterChatbox/DrafterChatbox";
 
 import "./RightColumn.css";
 
-function RightColumn() {
+function RightColumn({ socket }) {
     return (
         <div className="RightColumn">
-            <DrafterPicks />
+            <DrafterPicks socket={socket} />
             <DrafterChatbox />
         </div>
     )
