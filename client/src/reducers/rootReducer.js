@@ -21,7 +21,6 @@ function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, lobby: { ...state.lobby, draftTime: action.countdownData.draftTime, gameStartCountdown: action.countdownData.gameStartCountdown, draftInProgress: action.countdownData.draftInProgress } };
 
     case "UPDATE_PICKS":
-      console.log("updating picks", action.teamname);
       return { 
         ...state, 
         player: { ...state.player, picks: action.picks },
@@ -29,8 +28,12 @@ function rootReducer(state = INITIAL_STATE, action) {
       };
 
     case "UPDATE_BANS":
-      console.log("updating bans");
-      return { ...state, player: { ...action.playerData } };
+      console.log("updating bans", action.teamname);
+      return { 
+        ...state, 
+        player: { ...state.player, bans: action.bans },
+        lobby: { ...state.lobby, [action.teamname]: { ...state.lobby[action.teamname], bans: action.bans} } 
+      };
 
     case "RESET_STATE":
       return { ...INITIAL_STATE };

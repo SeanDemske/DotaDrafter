@@ -8,17 +8,24 @@ function PickSelector({ socket }) {
     const selectedHero = useSelector(store => store.selectedHero);
     const dispatch = useDispatch();
 
-    const handleClick = () => {
+    const handlePick = () => {
         console.log("PICKED");
         socket.emit("pickAttempt", selectedHero, (picks, teamname) => {
             dispatch({ type: "UPDATE_PICKS", picks, teamname });
         });
     }
 
+    const handleBan = () => {
+        console.log("BANNED");
+        socket.emit("banAttempt", selectedHero, (bans, teamname) => {
+            dispatch({ type: "UPDATE_BANS", bans, teamname });
+        });
+    }
+
     const renderPickBtn = () => {
         return (
             <div className="pick-ban">
-                <button className="btn" onClick={handleClick}>Pick</button>
+                <button className="btn" onClick={handlePick}>Pick</button>
             </div>
         )
     }
@@ -26,7 +33,7 @@ function PickSelector({ socket }) {
     const renderBanBtn = () => {
         return (
             <div className="pick-ban">
-                <button className="btn" onClick={handleClick}>Ban</button>
+                <button className="btn btn-ban" onClick={handleBan}>Ban</button>
             </div>
         )
     }
@@ -37,9 +44,7 @@ function PickSelector({ socket }) {
                 <Hero hero={selectedHero} />
                 <p className="selected-hero-title">{selectedHero.localized_name}</p>
             </div>
-            <div className="pick-ban">
-                <button className="btn" onClick={handleClick}>Pick</button>
-            </div>
+            {renderBanBtn()}
         </div>
     )
 }

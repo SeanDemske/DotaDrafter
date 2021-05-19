@@ -8,6 +8,11 @@
     color: var(--neutral-text);
 }
 
+.btn-ban {
+    background-color: rgb(90 50 50);
+    border: 5px solid #6c4d4b;
+}
+
 .btn:hover {
     cursor: pointer;
     filter: brightness(110%);

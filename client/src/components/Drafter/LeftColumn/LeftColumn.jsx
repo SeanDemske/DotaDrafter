@@ -3,10 +3,10 @@ import DrafterHeroPool from "./DrafterHeroPool/DrafterHeroPool";
 
 import "./LeftColumn.css";
 
-function LeftColumn() {
+function LeftColumn({ hero_data }) {
     return (
         <div className="LeftColumn">
-            <DrafterHeroPool />
+            <DrafterHeroPool hero_data={hero_data} />
         </div>
     );
 }

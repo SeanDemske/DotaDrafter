@@ -1,4 +1,4 @@
-const temp_data = {
+const hero_data = {
     "1": {
         "id": 1,
         "name": "npc_dota_hero_antimage",
@@ -4323,4 +4323,4 @@ const temp_data = {
     }
 }
 
-export default temp_data;
+export default hero_data;

@@ -7,6 +7,8 @@ import io from "socket.io-client";
 import { useSelector, useDispatch } from "react-redux";
 import UsernameModal from "../UsernameModal/UsernameModal";
 import { useHistory } from "react-router-dom";
+import { updateHeroPool } from "../../utils/formatHeroes";
+import hero_data from "../../hero_data";
 
 import "./Drafter.css";
 
@@ -67,9 +69,16 @@ function Drafter() {
     useEffect(() => {
         socket.on("pickSuccess", (picks, teamname) => {
             dispatch({ type: "UPDATE_PICKS", picks, teamname});
+            updateHeroPool(hero_data, picks);
         });
     }, [dispatch]);
 
+    useEffect(() => {
+        socket.on("banSuccess", (bans, teamname) => {
+            dispatch({ type: "UPDATE_BANS", bans, teamname});
+            updateHeroPool(hero_data, bans);
+        });
+    }, [dispatch]);
 
     let draftTime = 30;
     if (store.lobby !== null) {
@@ -82,7 +91,7 @@ function Drafter() {
             <div className="Drafter-container">
                 <DrafterHeader draftTime={draftTime} />
                 <div className="Columns-container">
-                    <LeftColumn />
+                    <LeftColumn hero_data={hero_data} />
                     <RightColumn socket={socket} />
                 </div>
             </div>

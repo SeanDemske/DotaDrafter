@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch } from "react-redux";
-import temp_data from "../../../../temp_data";
 import { formatAgiHeroes, formatIntHeroes, formatStrHeroes } from "../../../../utils/formatHeroes";
 import Hero from "../../Hero/Hero";
 import Tilt from 'react-tilt'
@@ -8,14 +7,13 @@ import Tilt from 'react-tilt'
 import "./DrafterHeroPool.css";
 
 
-function DrafterHeroPool() {
+function DrafterHeroPool({ hero_data }) {
     const dispatch = useDispatch();
-    const agiHeroes = formatAgiHeroes(temp_data);
-    const intHeroes = formatIntHeroes(temp_data);
-    const strHeroes = formatStrHeroes(temp_data);
+    const agiHeroes = formatAgiHeroes(hero_data);
+    const intHeroes = formatIntHeroes(hero_data);
+    const strHeroes = formatStrHeroes(hero_data);
 
     const handleClick = (selectedHero) => {
-        console.log("clicked");
         dispatch({ type: "UPDATE_SELECTED_HERO_STATE", selectedHero });
     }
 

@@ -85,6 +85,7 @@ io.on("connection", (socket) => {
 
     socket.on("pickAttempt", (hero, callback) => {
         if (!activePlayer) return false;
+        if (activePlayer.picks.find( pick => pick.id === hero.id )) return false; // No duplicate picks
 
         let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
 
@@ -94,6 +95,20 @@ io.on("connection", (socket) => {
 
         // Send data to lobby
         io.to(activeLobby.id).emit("pickSuccess", activePlayer.picks, `player${activePlayer.team}`);
+    })
+
+    socket.on("banAttempt", (hero, callback) => {
+        if (!activePlayer) return false;
+        if (activePlayer.bans.find( ban => ban.id === hero.id )) return false; // No duplicate bans
+
+        let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
+
+        console.log("attempted to ban hero");
+        activePlayer.banHero(hero);
+        callback(activePlayer.bans, `player${activePlayer.team}`);
+
+        // Send data to lobby
+        io.to(activeLobby.id).emit("banSuccess", activePlayer.bans, `player${activePlayer.team}`);
     })
 
     socket.on("disconnect", () => {

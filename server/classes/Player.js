@@ -21,8 +21,9 @@ class Player {
     this.pickIdx++;
   }
 
-  banHero() {
-    console.log("hero banned");
+  banHero(hero) {
+    this.bans[this.banIdx] = hero;
+    this.banIdx++;
   }
 }
 
