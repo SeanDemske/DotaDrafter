@@ -67,15 +67,17 @@ function Drafter() {
     }, [dispatch]);
 
     useEffect(() => {
-        socket.on("pickSuccess", (picks, teamname) => {
+        socket.on("pickSuccess", (picks, teamname, pickingTeam, pickBanMode) => {
             dispatch({ type: "UPDATE_PICKS", picks, teamname});
+            dispatch({ type: "UPDATE_PICK_BAN_STATE", pickingTeam, pickBanMode});
             updateHeroPool(hero_data, picks);
         });
     }, [dispatch]);
 
     useEffect(() => {
-        socket.on("banSuccess", (bans, teamname) => {
+        socket.on("banSuccess", (bans, teamname, pickingTeam, pickBanMode) => {
             dispatch({ type: "UPDATE_BANS", bans, teamname});
+            dispatch({ type: "UPDATE_PICK_BAN_STATE", pickingTeam, pickBanMode});
             updateHeroPool(hero_data, bans);
         });
     }, [dispatch]);

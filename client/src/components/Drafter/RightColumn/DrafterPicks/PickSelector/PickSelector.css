@@ -20,6 +20,13 @@
     font-size: 1.5rem;
 }
 
+.PickSelector .btn:disabled {
+    background-color: rgb(41 41 41);
+    border: 5px solid #373737;
+    color: #656565;
+    pointer-events: none;
+}
+
 .PickSelector .selected-hero {
     display: flex;
 }

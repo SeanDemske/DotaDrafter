@@ -4,8 +4,13 @@ import "./RadiantSide.css";
 
 function RadiantSide({ lobby }) {
 
+    let reserveTime = 0;
     const renderUsername = () => {
         if (lobby !== null && lobby.playerRadiant !== undefined) return <h2>{lobby.playerRadiant.username}</h2>
+    }
+
+    if (lobby !== null && lobby.playerRadiant !== null) {
+        reserveTime = lobby.playerRadiant.reserveTime;
     }
 
     const renderWaiting = () => (
@@ -19,7 +24,7 @@ function RadiantSide({ lobby }) {
                 {lobby !== null && lobby.playerRadiant !== null ? renderUsername() : renderWaiting()}
             </div>
             <div className="radiant-right-panel">
-                <p>Reserve: 2:25</p>
+                <p>Reserve: {reserveTime}</p>
             </div>
         </div>
     );

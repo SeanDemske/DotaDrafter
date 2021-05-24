@@ -4,8 +4,13 @@ import "./DireSide.css";
 
 function DireSide({ lobby }) {
 
+    let reserveTime = 0;
     const renderUsername = () => {
         if (lobby !== null && lobby.playerDire !== undefined) return <h2>{lobby.playerDire.username}</h2>
+    }
+
+    if (lobby !== null && lobby.playerDire !== null) {
+        reserveTime = lobby.playerDire.reserveTime;
     }
 
     const renderWaiting = () => (
@@ -15,7 +20,7 @@ function DireSide({ lobby }) {
     return (
         <div className="header-dire">
             <div className="dire-left-panel">
-                <p>Reserve: 2:25</p>
+                <p>Reserve: {reserveTime}</p>
             </div>
             <div className="dire-right-panel">
                 <h1>Dire</h1>

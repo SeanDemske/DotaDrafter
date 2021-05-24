@@ -5,13 +5,16 @@ class Lobby {
     this.id = id;
     this.lobbyFull = false;
     this.teamToPick = null;
-    this.switchPickBan = "BAN";
+    this.switchPickBan = "PICK";
     this.playerRadiant = null;
     this.playerDire = null;
+    this.activePlayer = null;
+    this.inactivePlayer = null;
     this.draftInProgress = false;
     this.gameStartCountdown = 10;
-    this.draftTime = 30;
+    this.draftTime = 5;
     this.chat = new Chat("randId", this.id);
+    this.toggleActivePlayer = this.toggleActivePlayer.bind(this);
   }
 
   addPlayer(player) {
@@ -44,14 +47,14 @@ class Lobby {
     }
   }
 
-  startGameCountdown(callback) {
+  startGameCountdown(callback, updateAutoPicks, updateAutoBans) {
     console.log("STARTING GAME!!!", this.gameStartCountdown);
     
     let timerId = setInterval(() => {
       if (this.gameStartCountdown < 0) {
         clearTimeout(timerId);
         console.log("TIMES UP, STARTING GAME");
-        this.startDraft(callback);
+        this.startDraftConfig(callback, updateAutoPicks, updateAutoBans);
         return 0;
       } else {
         console.log(this.gameStartCountdown);
@@ -62,16 +65,25 @@ class Lobby {
     }, 1000);
   }
 
-  startDraft(callback) {
+  startDraftConfig(callback, updateAutoPicks, updateAutoBans) {
     console.log("STARTING DRAFT!!!");
 
-    this.draftInProgress = true;
     this.teamToPick = "Radiant";
-    
+    this.activePlayer = this.playerRadiant;
+    this.inactivePlayer = this.playerDire;
+    this.draftInProgress = true;
+
+    this.startDraftCountdown(callback, updateAutoPicks, updateAutoBans);
+  }
+
+  startDraftCountdown(callback, updateAutoPicks, updateAutoBans) {
     let timerId = setInterval(() => {
-      if (this.draftTime < 0) {
+      if (this.draftTime <= 0) {
         clearTimeout(timerId);
         console.log("TIMES UP");
+        if (this.activePlayer !== null) {
+          this.activePlayer.startReserveCountdown(this.toggleActivePlayer, callback, updateAutoPicks, updateAutoBans);
+        }
         return 0;
       } else {
         callback();
@@ -79,7 +91,30 @@ class Lobby {
         return this.draftTime;
       }
     }, 1000);
-    
+  }
+
+  togglePickingTeam() {
+    if (this.teamToPick === null) return false;
+    if (this.teamToPick === "Radiant") {
+      this.teamToPick = "Dire";
+    } else if (this.teamToPick === "Dire") {
+      this.teamToPick = "Radiant";
+    }
+  }
+
+  toggleActivePlayer(callback, updateAutoPicks, updateAutoBans) {
+    if (this.activePlayer === null || this.inactivePlayer === null) return false;
+    let temp = this.activePlayer;
+    this.activePlayer = this.inactivePlayer;
+    this.inactivePlayer = temp;
+    console.log("SWITCHING SIDES")
+
+    this.draftTime = 5;
+    this.startDraftCountdown(callback, updateAutoPicks, updateAutoBans);
+  }
+
+  togglePickBanMode() {
+
   }
 }
 

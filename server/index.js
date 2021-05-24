@@ -57,7 +57,19 @@ io.on("connection", (socket) => {
             if (activeLobby.lobbyFull === true) {
                 // Start the game
                 activeLobby.startGameCountdown(() => {
-                    io.to(activeLobby.id).emit("countdownTick", {draftTime: activeLobby.draftTime, gameStartCountdown: activeLobby.gameStartCountdown, draftInProgress: activeLobby.draftInProgress });
+                    io.to(activeLobby.id).emit("countdownTick", {
+                        draftTime: activeLobby.draftTime, 
+                        gameStartCountdown: activeLobby.gameStartCountdown, 
+                        draftInProgress: activeLobby.draftInProgress, 
+                        teamToPick: activeLobby.teamToPick,
+                        radiantReserve: activeLobby.playerRadiant.reserveTime || 0,
+                        direReserve: activeLobby.playerDire.reserveTime || 0
+                    });
+                }, (teamname, picks) => {
+                    io.to(activeLobby.id).emit("pickSuccess", picks, `player${teamname}`, activeLobby.teamToPick, activeLobby.switchPickBan);
+                    console.log("UPDATING AUTO PICKS")
+                }, (teamname, picks) => {
+                    io.to(activeLobby.id).emit("banSuccess", picks, `player${teamname}`, activeLobby.teamToPick, activeLobby.switchPickBan);
                 });
             }
         } else { 
@@ -88,13 +100,15 @@ io.on("connection", (socket) => {
         if (activePlayer.picks.find( pick => pick.id === hero.id )) return false; // No duplicate picks
 
         let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
+        if (activeLobby.teamToPick !== activePlayer.team) return false; // Only correct player can pick
+        if (activeLobby.switchPickBan !== "PICK") return false; // Must be in picking mode
 
         console.log("attempted to pick hero");
         activePlayer.pickHero(hero);
         callback(activePlayer.picks, `player${activePlayer.team}`);
 
         // Send data to lobby
-        io.to(activeLobby.id).emit("pickSuccess", activePlayer.picks, `player${activePlayer.team}`);
+        io.to(activeLobby.id).emit("pickSuccess", activePlayer.picks, `player${activePlayer.team}`, activeLobby.teamToPick, activeLobby.switchPickBan);
     })
 
     socket.on("banAttempt", (hero, callback) => {
@@ -102,13 +116,17 @@ io.on("connection", (socket) => {
         if (activePlayer.bans.find( ban => ban.id === hero.id )) return false; // No duplicate bans
 
         let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
+        if (activeLobby.teamToPick !== activePlayer.team) return false; // Only correct player can pick
+        if (activeLobby.switchPickBan !== "BAN") return false; // Must be in banning mode
 
         console.log("attempted to ban hero");
         activePlayer.banHero(hero);
+        activeLobby.togglePickingTeam();
+        console.log(activeLobby.teamToPick);
         callback(activePlayer.bans, `player${activePlayer.team}`);
 
         // Send data to lobby
-        io.to(activeLobby.id).emit("banSuccess", activePlayer.bans, `player${activePlayer.team}`);
+        io.to(activeLobby.id).emit("banSuccess", activePlayer.bans, `player${activePlayer.team}`, activeLobby.teamToPick, activeLobby.switchPickBan);
     })
 
     socket.on("disconnect", () => {

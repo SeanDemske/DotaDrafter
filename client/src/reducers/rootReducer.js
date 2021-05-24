@@ -18,21 +18,43 @@ function rootReducer(state = INITIAL_STATE, action) {
       return { ...state, player: { ...action.playerData } };
 
     case "UPDATE_COUNTDOWN":
-      return { ...state, lobby: { ...state.lobby, draftTime: action.countdownData.draftTime, gameStartCountdown: action.countdownData.gameStartCountdown, draftInProgress: action.countdownData.draftInProgress } };
+      return { 
+        ...state, 
+        lobby: 
+        { 
+          ...state.lobby, 
+          draftTime: action.countdownData.draftTime, 
+          gameStartCountdown: action.countdownData.gameStartCountdown, 
+          draftInProgress: action.countdownData.draftInProgress,
+          teamToPick: action.countdownData.teamToPick, 
+          playerRadiant: {
+            ...state.lobby.playerRadiant,
+            reserveTime: action.countdownData.radiantReserve
+          },
+          playerDire: {
+            ...state.lobby.playerDire,
+            reserveTime: action.countdownData.direReserve
+          }
+
+        } };
 
     case "UPDATE_PICKS":
       return { 
         ...state, 
-        player: { ...state.player, picks: action.picks },
         lobby: { ...state.lobby, [action.teamname]: { ...state.lobby[action.teamname], picks: action.picks} } 
       };
 
     case "UPDATE_BANS":
-      console.log("updating bans", action.teamname);
       return { 
         ...state, 
-        player: { ...state.player, bans: action.bans },
         lobby: { ...state.lobby, [action.teamname]: { ...state.lobby[action.teamname], bans: action.bans} } 
+      };
+
+    case "UPDATE_PICK_BAN_STATE":
+      console.log("updating pick/ban state", action.teamname);
+      return { 
+        ...state, 
+        lobby: { ...state.lobby, switchPickBan: action.pickBanMode, teamToPick: action.pickingTeam } 
       };
 
     case "RESET_STATE":

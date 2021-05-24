@@ -10,7 +10,7 @@ function PicksDisplay({ team = "UNDEFINED" }) {
     let picks = [];
     let bans = [];
 
-    if (lobby) {
+    if (lobby !== null) {
         picks = lobby[`player${team}`] !== null ? lobby[`player${team}`].picks : [];
         bans = lobby[`player${team}`] !== null ? lobby[`player${team}`].bans : [];
     }
