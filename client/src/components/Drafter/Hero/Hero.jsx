@@ -3,7 +3,7 @@ import unselectedHero from "../../../unselectedHero";
 import "./Hero.css";
 
 function Hero({ hero, handleClick = (() => null) }) {
-    if (hero === "unselected_hero") {
+    if (hero.id === 9001) {
         hero = unselectedHero;
     }
 

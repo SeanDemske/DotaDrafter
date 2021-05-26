@@ -5,7 +5,7 @@ class Lobby {
     this.id = id;
     this.lobbyFull = false;
     this.teamToPick = null;
-    this.switchPickBan = "PICK";
+    this.switchPickBan = "BAN";
     this.playerRadiant = null;
     this.playerDire = null;
     this.activePlayer = null;
@@ -15,6 +15,8 @@ class Lobby {
     this.draftTime = 5;
     this.chat = new Chat("randId", this.id);
     this.toggleActivePlayer = this.toggleActivePlayer.bind(this);
+    this.setPickOrBan = this.setPickOrBan.bind(this);
+
   }
 
   addPlayer(player) {
@@ -45,6 +47,10 @@ class Lobby {
       this.lobbyFull = true;
       return this;
     }
+  }
+
+  setPickOrBan(mode) {
+    this.switchPickBan = mode;
   }
 
   startGameCountdown(callback, updateAutoPicks, updateAutoBans) {
@@ -82,7 +88,7 @@ class Lobby {
         clearTimeout(timerId);
         console.log("TIMES UP");
         if (this.activePlayer !== null) {
-          this.activePlayer.startReserveCountdown(this.toggleActivePlayer, callback, updateAutoPicks, updateAutoBans);
+          this.activePlayer.startReserveCountdown(this.toggleActivePlayer, callback, updateAutoPicks, updateAutoBans, this.switchPickBan, this.setPickOrBan);
         }
         return 0;
       } else {

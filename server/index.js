@@ -13,6 +13,8 @@ const server = http.createServer(app);
 const options={
     cors:true,
     origins:["http://localhost:5000"],
+    pingTimeout: 180000,
+    pingInterval: 25000
 }
 const io = socketio(server, options);
 
@@ -57,13 +59,17 @@ io.on("connection", (socket) => {
             if (activeLobby.lobbyFull === true) {
                 // Start the game
                 activeLobby.startGameCountdown(() => {
+                    let radiantReserve = 0;
+                    let direReserve = 0;
+                    if (activeLobby.playerRadiant !== null) radiantReserve = activeLobby.playerRadiant.reserveTime;
+                    if (activeLobby.playerDire !== null) direReserve = activeLobby.playerDire.reserveTime;
                     io.to(activeLobby.id).emit("countdownTick", {
                         draftTime: activeLobby.draftTime, 
                         gameStartCountdown: activeLobby.gameStartCountdown, 
                         draftInProgress: activeLobby.draftInProgress, 
                         teamToPick: activeLobby.teamToPick,
-                        radiantReserve: activeLobby.playerRadiant.reserveTime || 0,
-                        direReserve: activeLobby.playerDire.reserveTime || 0
+                        radiantReserve,
+                        direReserve
                     });
                 }, (teamname, picks) => {
                     io.to(activeLobby.id).emit("pickSuccess", picks, `player${teamname}`, activeLobby.teamToPick, activeLobby.switchPickBan);
@@ -129,12 +135,12 @@ io.on("connection", (socket) => {
         io.to(activeLobby.id).emit("banSuccess", activePlayer.bans, `player${activePlayer.team}`, activeLobby.teamToPick, activeLobby.switchPickBan);
     })
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", (reason) => {
         if (activePlayer && Lobbies) {
             lobbyLeave(activePlayer, Lobbies);
         }
 
-        console.log("client disconnected");
+        console.log("client disconnected", reason);
     });
 });
 

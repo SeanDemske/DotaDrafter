@@ -4323,4 +4323,4 @@ const hero_data = {
     }
 }
 
-module.exports = {hero_data};
+module.exports = hero_data;
