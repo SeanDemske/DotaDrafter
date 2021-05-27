@@ -16,7 +16,9 @@ class Lobby {
     this.chat = new Chat("randId", this.id);
     this.toggleActivePlayer = this.toggleActivePlayer.bind(this);
     this.setPickOrBan = this.setPickOrBan.bind(this);
-
+    this.resetDraftTime = this.resetDraftTime.bind(this);
+    this.togglePickingTeam = this.togglePickingTeam.bind(this);
+    this.timerId = null;
   }
 
   addPlayer(player) {
@@ -83,12 +85,16 @@ class Lobby {
   }
 
   startDraftCountdown(callback, updateAutoPicks, updateAutoBans) {
-    let timerId = setInterval(() => {
+    if (this.timerId !== null) {
+      clearTimeout(this.timerId);
+    }
+
+    this.timerId = setInterval(() => {
       if (this.draftTime <= 0) {
-        clearTimeout(timerId);
+        clearTimeout(this.timerId);
         console.log("TIMES UP");
         if (this.activePlayer !== null) {
-          this.activePlayer.startReserveCountdown(this.toggleActivePlayer, callback, updateAutoPicks, updateAutoBans, this.switchPickBan, this.setPickOrBan);
+          this.activePlayer.startReserveCountdown(this.toggleActivePlayer, callback, updateAutoPicks, updateAutoBans, this.switchPickBan, this.setPickOrBan, this.resetDraftTime, this.togglePickingTeam);
         }
         return 0;
       } else {
@@ -108,19 +114,19 @@ class Lobby {
     }
   }
 
-  toggleActivePlayer(callback, updateAutoPicks, updateAutoBans) {
+  toggleActivePlayer(callback = null, updateAutoPicks = null, updateAutoBans = null) {
     if (this.activePlayer === null || this.inactivePlayer === null) return false;
     let temp = this.activePlayer;
     this.activePlayer = this.inactivePlayer;
     this.inactivePlayer = temp;
     console.log("SWITCHING SIDES")
-
-    this.draftTime = 5;
-    this.startDraftCountdown(callback, updateAutoPicks, updateAutoBans);
+    if (callback !== null && updateAutoPicks !== null && updateAutoBans !== null) {
+      this.startDraftCountdown(callback, updateAutoPicks, updateAutoBans);
+    }
   }
 
-  togglePickBanMode() {
-
+  resetDraftTime() {
+    this.draftTime = 6;
   }
 }
 

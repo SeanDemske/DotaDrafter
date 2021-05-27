@@ -72,10 +72,12 @@ io.on("connection", (socket) => {
                         direReserve
                     });
                 }, (teamname, picks) => {
-                    io.to(activeLobby.id).emit("pickSuccess", picks, `player${teamname}`, activeLobby.teamToPick, activeLobby.switchPickBan);
+                    let pickOrBan = activeLobby.inactivePlayer.determinePickOrBan(activeLobby.setPickOrBan);
+                    io.to(activeLobby.id).emit("pickSuccess", picks, `player${teamname}`, activeLobby.teamToPick, pickOrBan);
                     console.log("UPDATING AUTO PICKS")
                 }, (teamname, picks) => {
-                    io.to(activeLobby.id).emit("banSuccess", picks, `player${teamname}`, activeLobby.teamToPick, activeLobby.switchPickBan);
+                    let pickOrBan = activeLobby.inactivePlayer.determinePickOrBan(activeLobby.setPickOrBan);
+                    io.to(activeLobby.id).emit("banSuccess", picks, `player${teamname}`, activeLobby.teamToPick, pickOrBan);
                 });
             }
         } else { 
@@ -107,14 +109,44 @@ io.on("connection", (socket) => {
 
         let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
         if (activeLobby.teamToPick !== activePlayer.team) return false; // Only correct player can pick
-        if (activeLobby.switchPickBan !== "PICK") return false; // Must be in picking mode
+        if (activeLobby.draftTime === 0) return false;
 
         console.log("attempted to pick hero");
-        activePlayer.pickHero(hero);
+        if (activeLobby.switchPickBan !== "PICK") return false; // Must be in picking mode
+        activeLobby.setPickOrBan(activePlayer.determinePickOrBan());
+        activePlayer.pickHero(hero, activeLobby.setPickOrBan);
+        let pickOrBan = activeLobby.inactivePlayer.determinePickOrBan(activeLobby.setPickOrBan);
+        activePlayer.stopReserveCountdown();
+        activeLobby.togglePickingTeam();
+        activeLobby.resetDraftTime();
+        activeLobby.toggleActivePlayer(() => {
+            let radiantReserve = 0;
+            let direReserve = 0;
+            if (activeLobby.playerRadiant !== null) radiantReserve = activeLobby.playerRadiant.reserveTime;
+            if (activeLobby.playerDire !== null) direReserve = activeLobby.playerDire.reserveTime;
+            io.to(activeLobby.id).emit("countdownTick", {
+                draftTime: activeLobby.draftTime, 
+                gameStartCountdown: activeLobby.gameStartCountdown, 
+                draftInProgress: activeLobby.draftInProgress, 
+                teamToPick: activeLobby.teamToPick,
+                radiantReserve,
+                direReserve
+            });
+        }, (teamname, picks) => {
+            let pickOrBan = activeLobby.inactivePlayer.determinePickOrBan(activeLobby.setPickOrBan);
+            io.to(activeLobby.id).emit("pickSuccess", picks, `player${teamname}`, activeLobby.teamToPick, pickOrBan);
+            console.log("UPDATING AUTO PICKS")
+        }, (teamname, picks) => {
+            let pickOrBan = activeLobby.inactivePlayer.determinePickOrBan(activeLobby.setPickOrBan);
+            io.to(activeLobby.id).emit("banSuccess", picks, `player${teamname}`, activeLobby.teamToPick, pickOrBan);
+        });
+
         callback(activePlayer.picks, `player${activePlayer.team}`);
 
+        // console.log(activeLobby);
+
         // Send data to lobby
-        io.to(activeLobby.id).emit("pickSuccess", activePlayer.picks, `player${activePlayer.team}`, activeLobby.teamToPick, activeLobby.switchPickBan);
+        io.to(activeLobby.id).emit("pickSuccess", activePlayer.picks, `player${activePlayer.team}`, activeLobby.teamToPick, pickOrBan);
     })
 
     socket.on("banAttempt", (hero, callback) => {
@@ -123,16 +155,44 @@ io.on("connection", (socket) => {
 
         let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
         if (activeLobby.teamToPick !== activePlayer.team) return false; // Only correct player can pick
-        if (activeLobby.switchPickBan !== "BAN") return false; // Must be in banning mode
+        // if (activeLobby.draftTime === 0) return false;
 
         console.log("attempted to ban hero");
-        activePlayer.banHero(hero);
+        if (activeLobby.switchPickBan !== "BAN") return false; // Must be in banning mode
+        activeLobby.setPickOrBan(activePlayer.determinePickOrBan());
+        activePlayer.banHero(hero, activeLobby.setPickOrBan);
+        let pickOrBan = activeLobby.inactivePlayer.determinePickOrBan(activeLobby.setPickOrBan);
+        activePlayer.stopReserveCountdown();
         activeLobby.togglePickingTeam();
-        console.log(activeLobby.teamToPick);
+        activeLobby.resetDraftTime();
+        activeLobby.toggleActivePlayer(() => {
+            let radiantReserve = 0;
+            let direReserve = 0;
+            if (activeLobby.playerRadiant !== null) radiantReserve = activeLobby.playerRadiant.reserveTime;
+            if (activeLobby.playerDire !== null) direReserve = activeLobby.playerDire.reserveTime;
+            io.to(activeLobby.id).emit("countdownTick", {
+                draftTime: activeLobby.draftTime, 
+                gameStartCountdown: activeLobby.gameStartCountdown, 
+                draftInProgress: activeLobby.draftInProgress, 
+                teamToPick: activeLobby.teamToPick,
+                radiantReserve,
+                direReserve
+            });
+        }, (teamname, picks) => {
+            let pickOrBan = activeLobby.inactivePlayer.determinePickOrBan(activeLobby.setPickOrBan);
+            io.to(activeLobby.id).emit("pickSuccess", picks, `player${teamname}`, activeLobby.teamToPick, pickOrBan);
+            console.log("UPDATING AUTO PICKS")
+        }, (teamname, picks) => {
+            let pickOrBan = activeLobby.inactivePlayer.determinePickOrBan(activeLobby.setPickOrBan);
+            io.to(activeLobby.id).emit("banSuccess", picks, `player${teamname}`, activeLobby.teamToPick, pickOrBan);
+        });
+
         callback(activePlayer.bans, `player${activePlayer.team}`);
 
+        // console.log(activeLobby);
+
         // Send data to lobby
-        io.to(activeLobby.id).emit("banSuccess", activePlayer.bans, `player${activePlayer.team}`, activeLobby.teamToPick, activeLobby.switchPickBan);
+        io.to(activeLobby.id).emit("banSuccess", activePlayer.bans, `player${activePlayer.team}`, activeLobby.teamToPick, pickOrBan);
     })
 
     socket.on("disconnect", (reason) => {

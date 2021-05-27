@@ -13,45 +13,73 @@ class Player {
     this.reserveTime = 5;
     this.pickIdx = 0;
     this.banIdx = 0;
+    this.timerId = null;
+    this.draftComplete = false;
   }
 
-  determinePickOrBan(setPickOrBan) {
+  determinePickOrBan(setPickOrBan = null) {
     switch(this.pickCount) {
       case 1:
-        setPickOrBan("BAN");
+        if (setPickOrBan !== null) {
+          setPickOrBan("BAN");
+        }
         return "BAN";
       case 2:
-        setPickOrBan("BAN");
+        if (setPickOrBan !== null) {
+          setPickOrBan("BAN");
+          console.log("SET TO BAN");
+        }
         return "BAN";
       case 3:
-        setPickOrBan("PICK");
+        if (setPickOrBan !== null) {
+          setPickOrBan("PICK");
+          console.log("SET TO PICK");
+        }
         return "PICK";
       case 4:
-        setPickOrBan("PICK");
+        if (setPickOrBan !== null) {
+          setPickOrBan("PICK");
+        }
         return "PICK";
       case 5:
-        setPickOrBan("BAN");
+        if (setPickOrBan !== null) {
+          setPickOrBan("BAN");
+        }
         return "BAN";
       case 6:
-        setPickOrBan("BAN");
+        if (setPickOrBan !== null) {
+          setPickOrBan("BAN");
+        }
         return "BAN";
       case 7:
-        setPickOrBan("BAN");
+        if (setPickOrBan !== null) {
+          setPickOrBan("BAN");
+        }
         return "BAN";
       case 8:
-        setPickOrBan("PICK");
+        if (setPickOrBan !== null) {
+          setPickOrBan("PICK");
+        }
         return "PICK";
       case 9:
-        setPickOrBan("PICK");
+        if (setPickOrBan !== null) {
+          setPickOrBan("PICK");
+        }
         return "PICK";
       case 10:
-        setPickOrBan("BAN");
+        if (setPickOrBan !== null) {
+          setPickOrBan("BAN");
+        }
         return "BAN";
       case 11:
-        setPickOrBan("BAN");
+        if (setPickOrBan !== null) {
+          setPickOrBan("BAN");
+        }
         return "BAN";
       case 12:
-        setPickOrBan("PICK");
+        if (setPickOrBan !== null) {
+          setPickOrBan("PICK");
+        }
         return "PICK";
       
       default:
@@ -92,8 +120,6 @@ class Player {
         };
     };
 
-    
-    console.log(randomHero);
     this.pickHero(randomHero);
     updateAutoPicks(this.team, this.picks);
   }
@@ -114,40 +140,45 @@ class Player {
       };
     }
 
-
-    console.log(randomHero);
     this.banHero(randomHero);
     updateAutoBans(this.team, this.bans);
   }
 
-  startReserveCountdown(togglePlayer, callback, updateAutoPicks, updateAutoBans, pickOrBan, setPickOrBan) {
+  startReserveCountdown(togglePlayer, callback, updateAutoPicks, updateAutoBans, pickOrBan, setPickOrBan, resetDraftTime, togglePickingTeam) {
     console.log("TAKING RESERVE TIME", this.reserveTime);
     
-    let timerId = setInterval(() => {
-      if (this.reserveTime <= 0) {
-        clearTimeout(timerId);
+    this.timerId = setInterval(() => {
+      if (this.reserveTime <= 0 && this.draftComplete === false) {
+        clearTimeout(this.timerId);
         console.log("TIMES UP, AUTOPICKING HERO");
-
         switch(this.determinePickOrBan(setPickOrBan)) {
           case "PICK":
             this.autoPick(updateAutoPicks);
+            resetDraftTime();
             break;
           case "BAN":
             this.autoBan(updateAutoBans);
+            resetDraftTime();
             break;
           default:
             break;
         } 
-        
         togglePlayer(callback, updateAutoPicks, updateAutoBans);
+        togglePickingTeam();
         return 0;
+      } else if (this.draftComplete === true) {
+          return false;
       } else {
         console.log(this.reserveTime);
-        callback();
         this.reserveTime = this.reserveTime - 1;
+        callback();
         return this.reserveTime;
       }
     }, 1000);
+  }
+
+  stopReserveCountdown() {
+    clearTimeout(this.timerId);
   }
 }
 
