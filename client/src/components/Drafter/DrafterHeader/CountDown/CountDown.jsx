@@ -9,9 +9,9 @@ function CountDown({ lobby }) {
     useEffect(() => {
         if (lobby === null) return false;
 
-        if (lobby.draftInProgress === false) {
+        if (lobby.gameStartCountdown > 0) {
             setTime(lobby.gameStartCountdown)
-        } else if (lobby.draftInProgress) {
+        } else if (lobby.gameStartCountdown <= 0) {
             setDraftStarted(true);
             setTime(lobby.draftTime);
         }

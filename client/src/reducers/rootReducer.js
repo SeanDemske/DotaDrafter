@@ -22,7 +22,8 @@ function rootReducer(state = INITIAL_STATE, action) {
         ...state, 
         lobby: 
         { 
-          ...state.lobby, 
+          ...state.lobby,
+          draftCompleted: action.countdownData.draftCompleted, 
           draftTime: action.countdownData.draftTime, 
           gameStartCountdown: action.countdownData.gameStartCountdown, 
           draftInProgress: action.countdownData.draftInProgress,

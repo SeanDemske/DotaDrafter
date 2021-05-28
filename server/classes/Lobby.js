@@ -10,7 +10,7 @@ class Lobby {
     this.playerDire = null;
     this.activePlayer = null;
     this.inactivePlayer = null;
-    this.draftInProgress = false;
+    this.draftCompleted = false;
     this.gameStartCountdown = 10;
     this.draftTime = 5;
     this.chat = new Chat("randId", this.id);
@@ -79,7 +79,6 @@ class Lobby {
     this.teamToPick = "Radiant";
     this.activePlayer = this.playerRadiant;
     this.inactivePlayer = this.playerDire;
-    this.draftInProgress = true;
 
     this.startDraftCountdown(callback, updateAutoPicks, updateAutoBans);
   }
@@ -88,6 +87,18 @@ class Lobby {
     if (this.timerId !== null) {
       clearTimeout(this.timerId);
     }
+
+    if (this.playerRadiant && this.playerDire !== null) {
+      if (this.playerRadiant.pickCount === 13 && this.playerDire.pickCount === 13) {
+        this.draftCompleted = true;
+        callback();
+        console.log("GAME OVER!!");
+        return;
+      }
+    }
+
+
+    console.log("after break");
 
     this.timerId = setInterval(() => {
       if (this.draftTime <= 0) {

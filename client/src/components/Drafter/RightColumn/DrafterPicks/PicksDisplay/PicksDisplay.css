@@ -21,7 +21,11 @@
     margin: 1rem 0;
 }
 
-.PicksDisplay .heroes-container img {
+.PicksDisplay .heroes-container .hero-wrapper {
+    width: 100%;
+}
+
+.PicksDisplay .heroes-container .hero-wrapper img {
     width: 100%;
 }
 

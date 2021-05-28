@@ -5,6 +5,7 @@
 
 .Hero img {
     width: 105px;
+    height: auto;
     vertical-align: top;
 }
 

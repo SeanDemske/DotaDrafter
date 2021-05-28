@@ -64,6 +64,7 @@ io.on("connection", (socket) => {
                     if (activeLobby.playerRadiant !== null) radiantReserve = activeLobby.playerRadiant.reserveTime;
                     if (activeLobby.playerDire !== null) direReserve = activeLobby.playerDire.reserveTime;
                     io.to(activeLobby.id).emit("countdownTick", {
+                        draftCompleted: activeLobby.draftCompleted,
                         draftTime: activeLobby.draftTime, 
                         gameStartCountdown: activeLobby.gameStartCountdown, 
                         draftInProgress: activeLobby.draftInProgress, 
@@ -125,6 +126,7 @@ io.on("connection", (socket) => {
             if (activeLobby.playerRadiant !== null) radiantReserve = activeLobby.playerRadiant.reserveTime;
             if (activeLobby.playerDire !== null) direReserve = activeLobby.playerDire.reserveTime;
             io.to(activeLobby.id).emit("countdownTick", {
+                draftCompleted: activeLobby.draftCompleted,
                 draftTime: activeLobby.draftTime, 
                 gameStartCountdown: activeLobby.gameStartCountdown, 
                 draftInProgress: activeLobby.draftInProgress, 
@@ -171,6 +173,7 @@ io.on("connection", (socket) => {
             if (activeLobby.playerRadiant !== null) radiantReserve = activeLobby.playerRadiant.reserveTime;
             if (activeLobby.playerDire !== null) direReserve = activeLobby.playerDire.reserveTime;
             io.to(activeLobby.id).emit("countdownTick", {
+                draftCompleted: activeLobby.draftCompleted,
                 draftTime: activeLobby.draftTime, 
                 gameStartCountdown: activeLobby.gameStartCountdown, 
                 draftInProgress: activeLobby.draftInProgress, 
