@@ -23,7 +23,7 @@ function PicksDisplay({ team = "UNDEFINED" }) {
                 <p>Picks</p>
                 <div className="heroes-container">
                     {picks.map((pick) => {
-                        return <div className="hero-wrapper"><Hero hero={pick} key={uuidv4()} /></div>
+                        return <div key={uuidv4()} className="hero-wrapper"><Hero hero={pick} /></div>
                     })}
                 </div>
             </div>
@@ -32,7 +32,7 @@ function PicksDisplay({ team = "UNDEFINED" }) {
                 <p>Bans</p>
                 <div className="heroes-container">
                     {bans.map((pick) => {
-                        return <div className="hero-wrapper"><Hero hero={pick} key={uuidv4()} /></div>
+                        return <div key={uuidv4()} className="hero-wrapper"><Hero hero={pick} /></div>
                     })}
                 </div>
             </div>

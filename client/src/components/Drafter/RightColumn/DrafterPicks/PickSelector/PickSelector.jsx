@@ -30,6 +30,8 @@ function PickSelector({ socket }) {
         }
     }
 
+
+
     const handlePick = () => {
         socket.emit("pickAttempt", selectedHero, (picks, teamname) => {
             dispatch({ type: "UPDATE_PICKS", picks, teamname });

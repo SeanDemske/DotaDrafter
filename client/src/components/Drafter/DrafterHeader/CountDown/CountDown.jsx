@@ -5,9 +5,14 @@ import "./CountDown.css";
 function CountDown({ lobby }) {
     const [time, setTime] = useState(10);
     const [draftStarted, setDraftStarted] = useState(false);
+    const [draftCompleted, setDraftCompleted] = useState(false);
 
     useEffect(() => {
         if (lobby === null) return false;
+
+        if (lobby.draftCompleted) {
+            setDraftCompleted(true);
+        }
 
         if (lobby.gameStartCountdown > 0) {
             setTime(lobby.gameStartCountdown)
@@ -31,9 +36,19 @@ function CountDown({ lobby }) {
         </>
     )
 
+    const renderATimer = () => {
+        return draftStarted ? renderDraftTimer() : renderGameStartTimer();
+    }
+
+    const renderGameOver = () => (
+        <>
+            <p>DRAFT OVER!</p>
+        </>
+    )
+
     return (
         <div className="CountDown">
-            {draftStarted ? renderDraftTimer() : renderGameStartTimer()}
+            {draftCompleted ? renderGameOver() : renderATimer()}
         </div>
     )
 }
