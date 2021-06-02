@@ -15,6 +15,7 @@ class Player {
     this.banIdx = 0;
     this.timerId = null;
     this.draftComplete = false;
+    this.hasLeft = false;
   }
 
   determinePickOrBan(setPickOrBan = null) {

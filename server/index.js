@@ -110,7 +110,7 @@ io.on("connection", (socket) => {
 
         let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
         if (activeLobby.teamToPick !== activePlayer.team) return false; // Only correct player can pick
-        if (activeLobby.draftTime === 0) return false;
+        if (activeLobby.draftCompleted) return false; // Cant pick after drafts over
 
         console.log("attempted to pick hero");
         if (activeLobby.switchPickBan !== "PICK") return false; // Must be in picking mode
@@ -157,7 +157,7 @@ io.on("connection", (socket) => {
 
         let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
         if (activeLobby.teamToPick !== activePlayer.team) return false; // Only correct player can pick
-        // if (activeLobby.draftTime === 0) return false;
+        if (activeLobby.draftCompleted) return false; // Cant pick after drafts over
 
         console.log("attempted to ban hero");
         if (activeLobby.switchPickBan !== "BAN") return false; // Must be in banning mode

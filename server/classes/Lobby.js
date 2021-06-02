@@ -97,9 +97,6 @@ class Lobby {
       }
     }
 
-
-    console.log("after break");
-
     this.timerId = setInterval(() => {
       if (this.draftTime <= 0) {
         clearTimeout(this.timerId);
@@ -139,6 +136,11 @@ class Lobby {
   resetDraftTime() {
     this.draftTime = 6;
   }
+
+  stopTimer() {
+    clearTimeout(this.timerId);
+  }
+
 }
 
 
