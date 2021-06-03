@@ -1,5 +1,5 @@
 import React from 'react'
-
+import formatTime from "../../../../utils/formatTime";
 import "./DireSide.css";
 
 function DireSide({ lobby }) {
@@ -20,7 +20,7 @@ function DireSide({ lobby }) {
     return (
         <div className="header-dire">
             <div className="dire-left-panel">
-                <p>Reserve: {reserveTime}</p>
+                <p>Reserve: {formatTime(reserveTime)}</p>
             </div>
             <div className="dire-right-panel">
                 <h1>Dire</h1>

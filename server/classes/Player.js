@@ -10,7 +10,7 @@ class Player {
     this.picks = [unselected_hero, unselected_hero, unselected_hero, unselected_hero, unselected_hero];
     this.bans = [unselected_hero, unselected_hero, unselected_hero, unselected_hero, unselected_hero, unselected_hero, unselected_hero];
     this.pickCount = 1;
-    this.reserveTime = 5;
+    this.reserveTime = 130;
     this.pickIdx = 0;
     this.banIdx = 0;
     this.timerId = null;
@@ -179,6 +179,7 @@ class Player {
   }
 
   stopReserveCountdown() {
+    console.log("CLEARING TIMER");
     clearTimeout(this.timerId);
   }
 }

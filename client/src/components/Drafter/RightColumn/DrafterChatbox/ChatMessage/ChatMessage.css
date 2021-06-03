@@ -1,0 +1,15 @@
+.msg {
+    overflow-wrap: break-word;
+}
+
+.msg-Radiant {
+    color: var(--radiant-green)
+}
+
+.msg-Dire {
+    color: var(--dire-red)
+}
+
+.msg-Server {
+    color: var(--neutral-text);
+}

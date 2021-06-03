@@ -9,7 +9,7 @@ function RightColumn({ socket }) {
     return (
         <div className="RightColumn">
             <DrafterPicks socket={socket} />
-            <DrafterChatbox />
+            <DrafterChatbox socket={socket} />
         </div>
     )
 }

@@ -12,7 +12,7 @@ class Lobby {
     this.inactivePlayer = null;
     this.draftCompleted = false;
     this.gameStartCountdown = 10;
-    this.draftTime = 5;
+    this.draftTime = 30;
     this.chat = new Chat("randId", this.id);
     this.toggleActivePlayer = this.toggleActivePlayer.bind(this);
     this.setPickOrBan = this.setPickOrBan.bind(this);
@@ -134,7 +134,7 @@ class Lobby {
   }
 
   resetDraftTime() {
-    this.draftTime = 6;
+    this.draftTime = 30;
   }
 
   stopTimer() {

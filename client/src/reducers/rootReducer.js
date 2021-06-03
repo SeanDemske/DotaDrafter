@@ -52,10 +52,16 @@ function rootReducer(state = INITIAL_STATE, action) {
       };
 
     case "UPDATE_PICK_BAN_STATE":
-      console.log("updating pick/ban state", action.teamname);
       return { 
         ...state, 
         lobby: { ...state.lobby, switchPickBan: action.pickBanMode, teamToPick: action.pickingTeam } 
+      };
+
+    case "UPDATE_CHATBOX":
+      console.log("UPDATING CHAT");
+      return { 
+        ...state, 
+        lobby: { ...state.lobby, chat: {...state.lobby.chat, messages: action.messages} } 
       };
 
     case "RESET_STATE":

@@ -82,6 +82,12 @@ function Drafter() {
         });
     }, [dispatch]);
 
+    useEffect(() => {
+        socket.on("msgSent", (messages) => {
+            dispatch({ type: "UPDATE_CHATBOX", messages});
+        });
+    }, [dispatch]);
+
     let draftTime = 30;
     if (store.lobby !== null) {
         draftTime = store.lobby.draftTime

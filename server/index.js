@@ -44,6 +44,7 @@ const Lobbies = {}
 io.on("connection", (socket) => {
     console.log("Socket connection made", socket.id);
     let activePlayer = null;
+    let url = socket.handshake.headers.referer;
 
     socket.on("join", (lobbyId, callback) => {
         activePlayer = lobbyJoin(lobbyId, Lobbies, socket.id);
@@ -53,8 +54,13 @@ io.on("connection", (socket) => {
             console.log("Successfully joined lobby")
             activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
             socket.join(lobbyId);
+            if (activeLobby.playerDire === null) {
+                activeLobby.chat.addMessage(`Welcome to the lobby, send the lobby link to your opponent!: ${url}${activeLobby.id}`, "Server", "Server");
+            }
+            activeLobby.chat.addMessage(`A drafter has connected!`, "Server", "Server");
             io.to(lobbyId).emit("playerConnection", activeLobby);
             callback(activePlayer, activeLobby);
+            io.to(activeLobby.id).emit("msgSent", activeLobby.chat.messages);
 
             if (activeLobby.lobbyFull === true) {
                 // Start the game
@@ -197,6 +203,19 @@ io.on("connection", (socket) => {
         // Send data to lobby
         io.to(activeLobby.id).emit("banSuccess", activePlayer.bans, `player${activePlayer.team}`, activeLobby.teamToPick, pickOrBan);
     })
+
+    /////////////////////////
+    // Sockets -- CHATBOX
+    /////////////////////////////
+    socket.on("sendMsg", (msg, callback) => {
+        if (!activePlayer) return false;
+        let activeLobby = getLobbyById(activePlayer.lobbyId, Lobbies);
+        activeLobby.chat.addMessage(msg, activePlayer.username, activePlayer.team);
+        callback(activeLobby.chat.messages);
+        // Send data to lobby
+        io.to(activeLobby.id).emit("msgSent", activeLobby.chat.messages);
+    })
+    
 
     socket.on("disconnect", (reason) => {
         if (activePlayer && Lobbies) {

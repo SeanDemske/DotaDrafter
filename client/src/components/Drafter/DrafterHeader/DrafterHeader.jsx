@@ -8,6 +8,7 @@ import "./DrafterHeader.css";
 
 function DrafterHeader() {
     const lobby = useSelector(store => store.lobby);
+
     return (
         <div className="DrafterHeader">
             <RadiantSide lobby={lobby}/>

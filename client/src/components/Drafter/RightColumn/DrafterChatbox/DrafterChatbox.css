@@ -2,5 +2,33 @@
     background-color: #070707;
     border-radius: 12px;
     padding: 2rem;
+    min-height: 250px;
     height: 100%;
+}
+
+.DrafterChatBox-messages {
+    height: 80%;
+    list-style: none;
+    margin: .5rem 0;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+}
+
+.DrafterChatBox-textfield {
+    color: var(--neutral-text);
+    padding: .5rem;
+    border: none;
+    outline: none;
+    height: auto;
+    width: 100%;
+    background-color: #1b1b1c;
+    border-top: 5px solid #272626;
+    border-radius: 5px;
+    font-family: 'Nanum Myeongjo', serif;
+}
+
+@media screen and (max-width: 1200px) {
+    .DrafterChatbox {
+        height: 250px;
+    }
 }

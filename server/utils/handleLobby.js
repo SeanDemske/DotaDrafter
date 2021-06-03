@@ -32,6 +32,7 @@ const lobbyLeave = (player, Lobbies) => {
     const activeLobby = getLobbyById(player.lobbyId, Lobbies);
 
     // Remove player from lobby
+    activeLobby[`player${player.team}`].stopReserveCountdown();
     activeLobby[`player${player.team}`] = null;
 
     // If all players are gone, remove lobby

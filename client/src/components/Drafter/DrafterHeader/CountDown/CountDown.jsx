@@ -6,6 +6,11 @@ function CountDown({ lobby }) {
     const [time, setTime] = useState(10);
     const [draftStarted, setDraftStarted] = useState(false);
     const [draftCompleted, setDraftCompleted] = useState(false);
+    let team = "RADIANT";
+
+    if (lobby !== null && lobby.teamToPick !== null) {
+        team = lobby.teamToPick.toUpperCase();
+    }
 
     useEffect(() => {
         if (lobby === null) return false;
@@ -31,7 +36,7 @@ function CountDown({ lobby }) {
 
     const renderDraftTimer = () => (
         <>
-            <p>YOUR TURN TO PICK</p>
+            <p>{team}'S TURN TO PICK</p>
             <p>:{time}</p>
         </>
     )

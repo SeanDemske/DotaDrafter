@@ -1,5 +1,5 @@
 import React from 'react'
-
+import formatTime from "../../../../utils/formatTime";
 import "./RadiantSide.css";
 
 function RadiantSide({ lobby }) {
@@ -24,7 +24,7 @@ function RadiantSide({ lobby }) {
                 {lobby !== null && lobby.playerRadiant !== null ? renderUsername() : renderWaiting()}
             </div>
             <div className="radiant-right-panel">
-                <p>Reserve: {reserveTime}</p>
+                <p>Reserve: {formatTime(reserveTime)}</p>
             </div>
         </div>
     );
