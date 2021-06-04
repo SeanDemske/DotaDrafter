@@ -9,6 +9,7 @@
 
 .Drafter-container .Columns-container {
     display: flex;
+    height: 1100px;
 }
 
 .LeftColumn {
@@ -24,7 +25,7 @@
 }
 
 .RightColumn .DrafterChatbox {
-    margin: 1rem 0 0 0;
+    margin: 1rem 0;
 }
 
 @media screen and (max-width: 1700px) {

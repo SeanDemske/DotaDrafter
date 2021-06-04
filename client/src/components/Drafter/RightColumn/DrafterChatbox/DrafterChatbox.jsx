@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from "react-redux";
 import ChatMessage from "./ChatMessage/ChatMessage";
 
@@ -8,6 +8,7 @@ function DrafterChatbox({ socket }) {
     const dispatch = useDispatch();
     const lobby = useSelector(store => store.lobby);
     const [textVal, setTextVal] = useState("");
+    let chatMessages = lobby !== null ? lobby.chat.messages : null;
 
     const handleChange = (e) => {
         setTextVal(e.target.value);
@@ -21,6 +22,11 @@ function DrafterChatbox({ socket }) {
             setTextVal("");
         } 
     }
+
+
+    useEffect(() => {
+        document.querySelector('.DrafterChatBox-messages').scrollTop = document.querySelector('.DrafterChatBox-messages').scrollHeight
+    }, [chatMessages]);
 
     return (
         <div className="DrafterChatbox">

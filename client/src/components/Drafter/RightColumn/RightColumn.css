@@ -1,6 +1,6 @@
 .RightColumn {
     width: 40%;
-    min-height: 85vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
 }

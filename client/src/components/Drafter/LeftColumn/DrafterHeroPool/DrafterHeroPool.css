@@ -1,5 +1,6 @@
 .DrafterHeroPool {
-    min-height: 85vh;
+    /* overflow-y: scroll; */
+    min-height: 1100px;
     background-color: #070707;
     border-radius: 12px;
     padding: 2rem;
