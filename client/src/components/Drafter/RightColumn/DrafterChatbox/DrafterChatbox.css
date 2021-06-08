@@ -4,6 +4,7 @@
     padding: 2rem;
     min-height: 250px;
     height: 100%;
+    border: 3px solid #242424;
 }
 
 .DrafterChatBox-messages {

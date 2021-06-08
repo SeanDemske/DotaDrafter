@@ -28,7 +28,7 @@ function Drafter() {
     if (!store) closeModal();
 
     useEffect(() => {
-        socket = io("localhost:5000");
+        socket = io("https://dota2-drafter.herokuapp.com/");
 
         socket.emit("join", (location), (playerData, lobbyData) => {
             console.log("updating store...");
