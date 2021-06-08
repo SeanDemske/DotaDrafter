@@ -31,7 +31,6 @@ function Drafter() {
         socket = io("https://dota2-drafter.herokuapp.com/");
 
         socket.emit("join", (location), (playerData, lobbyData) => {
-            console.log("updating store...");
             dispatch({ type: "UPDATE_LOBBY_STATE", lobbyData });
             dispatch({ type: "UPDATE_PLAYER_STATE", playerData });
         });
