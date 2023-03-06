@@ -1,5 +1,5 @@
 ## DoTA Drafter
-A web application that recreates the drafting phase of a competitive Dota 2 match for players to practice <a href="https://dota-drafter.netlify.app/">View Live</a>
+A web application that recreates the drafting phase of a competitive Dota 2 match for players to practice
 
 ![Website](https://i.imgur.com/LB1ITT0.png)
 
